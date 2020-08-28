@@ -5,34 +5,23 @@ import (
 	"strings"
 )
 
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-
 func reverseWords(s string) string {
 	if len(s) == 0 {
 		return s
 	}
 	var b strings.Builder
-	pos := len(s) - 1
 
-	// from tail to head
-	for cur := pos; cur >= 0; cur-- {
-		if s[cur] == ' ' {
-			if cur != pos {
-				b.WriteString(s[cur+1 : pos+1])
+	// sentinel
+	s = " " + s
+	// floating window: from tail to head
+	for left, right := len(s)-1, len(s)-1; left >= 0; left-- {
+		if s[left] == ' ' {
+			if left != right {
+				b.WriteString(s[left+1 : right+1])
 				b.WriteByte(' ')
 			}
-			pos = cur - 1
+			right = left - 1
 		}
-	}
-	if s[0] != ' ' {
-		b.WriteString(s[0 : pos+1])
-		return b.String()
 	}
 	// for " "
 	if b.Len() == 0 {
